@@ -1,0 +1,3 @@
+export const SET_TEST_DATA = 'SET_TEST_DATA';
+
+export const SET_QUESTION_DATA = 'SET_QUESTION_DATA';
