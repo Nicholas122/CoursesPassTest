@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import * as actions from './actions';
 import mutations from './mutations';
-import * as types from './questionTypes';
 
 Vue.use(Vuex);
 
@@ -12,6 +11,8 @@ const state = {
     creating: false,
     error: false,
     errors: {},
+    started: false,
+    passed: false,
     data: {
       title: '',
       questions: [],
@@ -19,14 +20,35 @@ const state = {
       section: '',
       timeLimit: '',
       passingScorePercent: 60,
-      retakeTimeout: ''
+      retakeTimeout: '',
     }
   },
   questions: [],
+  activeQuestion: {},
+  answers: [],
+  subQuestionId: 0,
+  result: {}
 };
 
 export default new Vuex.Store({
   state,
   mutations,
   actions,
+  getters: {
+    getAnswerValue: state => {
+     var answer = state.answers.find(answer => answer.questionId === state.activeQuestion.id)
+     var response = [];
+
+     if (state.activeQuestion.type == 'USER_INPUT') {
+      response = '';
+    }
+
+
+    if (answer) {
+      response = answer.value;
+    }
+
+    return response;
+  },
+}
 });

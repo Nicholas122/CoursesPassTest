@@ -8,7 +8,7 @@ export default new Router({
     mode: 'history',
     routes: [
         {
-            path: '/test/:testId/pass',
+            path: '/test/:testId',
             component: PassTest,
             props: true
         }

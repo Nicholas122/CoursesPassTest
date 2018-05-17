@@ -1,6 +1,10 @@
 import {
   SET_TEST_DATA,
   SET_QUESTION_DATA,
+  START_TEST,
+  CHANGE_ACTIVE_QUESTION,
+  FINISH_TEST,
+  UPDATE_QUESTION_ANSWER
 } from './mutationTypes';
 
 export default {
@@ -17,9 +21,36 @@ export default {
   [SET_QUESTION_DATA](state, data) {
     state.questions = data;
 
-    var maxId = parseInt(Math.max.apply(Math,state.questions.map(function(o){return o.id;}))) || 0;
-
-    state.questionId = maxId + 1;
+    state.activeQuestion = data[0];
   },
+
+  [START_TEST](state) {
+    state.test.started = true;
+  },
+
+  [CHANGE_ACTIVE_QUESTION](state, questionId) {
+    state.activeQuestion = state.questions.find(item => item.id === questionId);
+  },
+
+  [FINISH_TEST](state) {
+    state.test.started = false;
+    state.test.passed = true;
+  },
+
+  [UPDATE_QUESTION_ANSWER](state, value) {
+    var answer = state.answers.find(answer => answer.questionId === state.activeQuestion.id)
+
+
+    if (answer) {
+      answer.value = value;
+    }
+    else {
+     state.answers.push({
+      'questionId': state.activeQuestion.id,
+      'value': value
+    });
+   }
+ },
+
 
 };
