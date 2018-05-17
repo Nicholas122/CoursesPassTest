@@ -1,25 +1,23 @@
 <template>
-	<div class="container theme-showcase" v-if="testData.started == false && testData.passed == false">
-		<div class="starter-template">
+	<div class="container theme-showcase bg-passtest" v-if="testData.started == false && testData.passed == false">
+		<div class="starter-template ">
 			<div class="page-header">
 				<div class="row my-header">
 					<h1 class="col-sm-4">{{testData.data.title}}</h1>
 				</div>
 			</div>
 		</div>
-		<div class="container ">
-			<div class="myTestContainer">
-				<div class="testDescription">
-					<h3>{{testData.data.description}}</h3>
-				</div>
-				<div class="form-group startTest">
-					<button class="btn btn-primary btn-lg" @click.prevent="startTest">Start test</button>
-				</div>
+		<div class="myTestContainer">
+			<div class="testDescription">
+				<h3>{{testData.data.description}}</h3>
+			</div>
+			<div class="form-group startTest">
+				<button class="btn btn-primary btn-lg" @click.prevent="startTest">Start test</button>
 			</div>
 		</div>
 	</div>
 
-	<div class="container theme-showcase"  v-else-if="testData.started">
+	<div class="container theme-showcase "  v-else-if="testData.started">
 		<div class="starter-template">
 			<div class="page-header">
 				<div class="row my-header">
@@ -29,39 +27,39 @@
 					</div>
 				</div>
 			</div>
-			<div class="container ">
+			<div>
 				<div class="myTestContainer">
 					<div class="row">
 						<div class="col-md-6">
 							<div id="calendarPagination" v-for="(question, index) in questions" :key="question.id">
-								<div :class="['pagination', 'btn', 'btn-default', 'currentQuestion', {'active': activeQuestion.id == question.id}]">
-									<a href="#" @click.prevent="changeActiveQuestion(question.id)">{{index + 1}}</a>
+								<div :class="['pagination', 'btn', 'btn-default', 'currentQuestion', {'active': activeQuestion.id == question.id}]" @click.prevent="changeActiveQuestion(question.id)">
+									{{index + 1}}
 								</div>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="finish-btn clearfix">
-								<button type="button" id="finishTest" class="btn-link" data-toggle="modal" data-target="#finishConfirmation">Finish</button>
+								<button type="button" class="btn btn-success btn-pass" data-toggle="modal" data-target="#finishConfirmation">Finish</button>
 							</div>
 						</div>
 					</div>
 					<div id="questionContainer"> 
-						<div class="questions">
+						<div class="questions ">
 							<h2 class="qHeader">Question {{getCurrentQuestionIndex() + 1}} outof {{questions.length}} </h2>
 							<div class="rtDescription">
-								<h3>
+								<h4 class="card-header card-main">
 									<p>{{ activeQuestion.text }}</p>
-								</h3>
+								</h4>
 							</div>
 						</div>
-						<div class="form-horizontal answerContainers" v-if="activeQuestion.type == 'USER_INPUT'">
+						<div class="form-horizontal answerContainers col-md-12" v-if="activeQuestion.type == 'USER_INPUT'">
 							<div class="form-group" >
-								<textarea placeholder="Please enter your answers here" class="form-control userInputAnswers results" v-model="questionAnswer"></textarea>
+								<textarea placeholder="Please enter your answers here" class="form-control results" v-model="questionAnswer"></textarea>
 							</div>
 						</div>
-						<div class="form-horizontal answerContainers" v-else-if="activeQuestion.type == 'MULTIPLE_CHOICE'">
-							<div class="answers"  v-for="answer in activeQuestion.answers" :key="answer.id">
-								<div class="form-group answerLines">
+						<div class="form-horizontal answerContainers card-main card-body" v-else-if="activeQuestion.type == 'MULTIPLE_CHOICE'">
+							<div class="answers "  v-for="answer in activeQuestion.answers" :key="answer.id">
+								<div class="form-group answerLines ">
 									<div class="col-sm-1 multiAnswers"> 
 										<input class="results input-answer" type="checkbox" v-model="questionAnswer" :value="answer.id">  
 									</div>
@@ -71,34 +69,39 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-horizontal answerContainers" v-else-if="activeQuestion.type == 'READING_TEXT'">
-							<div class="reading-text-info">
+						<div class="form-horizontal answerContainers card-main " v-else-if="activeQuestion.type == 'READING_TEXT'">
+							<div class="reading-text-info card-header">
 								<p>{{activeQuestion.readingText}}</p>
 							</div>
-							<h3><strong>Questions:</strong></h3>
-							<div class="reading-text-subquestions" v-for="(subquestion, index) in activeQuestion.subQuestions" :key="subquestion.id">
+							<div class="reading-text-subquestions card-body" v-for="(subquestion, index) in activeQuestion.subQuestions" :key="subquestion.id">
 								<h4>Question {{index + 1}}</h4>
-								<p>{{subquestion.text}}</p>
-								<div class="reading-text-subquestions-answers" v-for="answer in subquestion.answers" :key="answer.id">
-									<div class="form-group answerLines">
-										<div class="col-sm-1 multiAnswers"> 
-											<input class="results input-answer" type="checkbox" v-model="questionAnswer" :value="answer.id + '|' + subquestion.id"> 
-										</div>
-										<div class="col-sm-10 answerDescriptions"> 
-											{{answer.text}} 
+								<div class=" card-main">
+									<div class="card-header ">
+										{{subquestion.text}}
+									</div>
+									<div class="card-body">
+										<div class="reading-text-subquestions-answers" v-for="answer in subquestion.answers" :key="answer.id">
+											<div class="form-group answerLines">
+												<div class="col-sm-1 multiAnswers"> 
+													<input class="results input-answer" type="checkbox" v-model="questionAnswer" :value="answer.id + '|' + subquestion.id"> 
+												</div>
+												<div class="col-sm-10 answerDescriptions"> 
+													{{answer.text}} 
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
+								</div>	
 							</div>
 						</div>
 					</div>
 				</div>
 				<ul id="prevNextBtn" class="pager">
 					<li class="previous" v-if="getPreviousQuestionId()">
-						<a type="button" class="btn-link" @click.prevent="changeActiveQuestion(getPreviousQuestionId())">Previous</a>
+						<a type="button" class="btn btn-prev" @click.prevent="changeActiveQuestion(getPreviousQuestionId())">Previous</a>
 					</li>
 					<li class="next" v-if="getNextQuestionId()">
-						<a type="button" class="btn-link" @click.prevent="changeActiveQuestion(getNextQuestionId())">Next</a>
+						<a type="button" class="btn btn-prev" @click.prevent="changeActiveQuestion(getNextQuestionId())">Next</a>
 					</li>
 
 				</ul>
@@ -216,7 +219,39 @@ export default {
 };
 </script>
 
-<style>
+<style> 
+.pag-marg {
+	margin-left:5px;
+}
+.btn-default {
+	color:#337ab7;
+}
+.btn-default.active {
+	color:#337ab7;
+}
+.card-main{
+	border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.btn-prev {
+    color: #fff;
+    background-color: #337ab7 !important;
+    border-color: #2e6da4 !important;
+    border-radius: 4px !important;
+}
+.btn-prev:hover {
+	color:#fff;
+} 
+.bg-passtest {
+	background-color: #f5f5f5;
+}
+.pager {
+	width:100%;
+}
+.btn-pass {
+    width: 150px;
+    float: right;
+    text-align: center;
+}
 .pager li > a {
 	cursor: pointer;
 }
