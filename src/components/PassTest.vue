@@ -126,17 +126,9 @@
 
 	<div class="container theme-showcase" v-else-if="testData.passed">
 		<div class="starter-template">
-			<div class="page-header">
-				<div class="row my-header">
-					<h1 class="col-sm-4">Results: 100%</h1>
-				</div>
-			</div>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6">
-						<p>Test passed!</p>
-					</div>
-				</div>
+			<div class="alert alert-success alert-dismissible" role="alert">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h3><strong>Test completed!</strong></h3> <a href="http://internalcourses.devcom.com/courses/my" class="btn btn-primary">Back to courses</a>
 			</div>
 		</div>
 	</div>
