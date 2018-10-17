@@ -32,9 +32,10 @@ export default {
     state.activeQuestion = state.questions.find(item => item.id === questionId);
   },
 
-  [FINISH_TEST](state) {
+  [FINISH_TEST](state, data) {
     state.test.started = false;
     state.test.passed = true;
+    state.test.result = data.result;
   },
 
   [UPDATE_QUESTION_ANSWER](state, value) {

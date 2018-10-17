@@ -13,6 +13,7 @@ const state = {
     errors: {},
     started: false,
     passed: false,
+    result: 0,
     data: {
       title: '',
       questions: [],

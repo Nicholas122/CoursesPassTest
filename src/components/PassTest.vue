@@ -23,7 +23,7 @@
 				<div class="row my-header">
 					<h1 class="col-sm-4">{{testData.data.title}}</h1>
 					<div class="col-xs-4 timer">
-						<vue-countdown v-on:time-expire="saveTest" :seconds="testData.data.timeLimit" :start="true"></vue-countdown>
+						<vue-countdown v-on:time-expire="saveTest" :seconds="testData.data.timeLimit*60" :start="true"></vue-countdown>
 					</div>
 				</div>
 			</div>
@@ -128,7 +128,7 @@
 		<div class="starter-template">
 			<div class="page-header">
 				<div class="row my-header">
-					<h1 class="col-sm-4">Results: 100%</h1>
+					<h1 class="col-sm-4">Results: {{testData.result}}%</h1>
 				</div>
 			</div>
 			<div class="container">
@@ -212,8 +212,8 @@ export default {
 
 			return response;
 		},
-		saveTest() {
-			this.finishTest(this.answers);
+		saveTest() {	
+			this.finishTest({'answers': this.answers, 'testId': this.testId});
 		}
 	}
 };

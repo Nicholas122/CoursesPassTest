@@ -19,16 +19,16 @@ export const fetchQuestion = ({commit}, testId) => {
 
 export const startTest = ({ commit }) => (
 	commit(START_TEST)
-	);
+);
 
 export const changeActiveQuestion = ({ commit }, questionId) => (
-  commit(CHANGE_ACTIVE_QUESTION, questionId)
-  );
+	commit(CHANGE_ACTIVE_QUESTION, questionId)
+);
 
-export const finishTest = ({commit}, answers) => {
-	return api.finishTest({'answers': answers}).then(data => commit(FINISH_TEST, data));
+export const finishTest = ({commit}, postData) => {
+	return api.finishTest(postData).then(data => commit(FINISH_TEST, data));
 }
 
 export const updateSubQuestionId = ({ commit }, questionId) => (
-  commit(UPDATE_SUBQUESTION_ID, questionId)
-  );
+	commit(UPDATE_SUBQUESTION_ID, questionId)
+);
