@@ -17,9 +17,10 @@ export const fetchQuestion = ({commit}, testId) => {
 	return api.getQuestion(testId).then(data => commit(SET_QUESTION_DATA, data));
 }
 
-export const startTest = ({ commit }) => (
-	commit(START_TEST)
-);
+
+export const startTest = ({commit}, testId) => {
+	return api.startTest(testId).then(data => commit(START_TEST, data));
+}
 
 export const changeActiveQuestion = ({ commit }, questionId) => (
 	commit(CHANGE_ACTIVE_QUESTION, questionId)
