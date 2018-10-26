@@ -16,6 +16,8 @@ export default {
     state.test.data.timeLimit = data.data.timeLimit;
     state.test.data.passingScorePercent = data.data.passingScorePercent;
     state.test.data.retakeTimeout = data.data.retakeTimeout;
+    state.test.data.id = data.data.id;
+
   },
 
   [SET_QUESTION_DATA](state, data) {

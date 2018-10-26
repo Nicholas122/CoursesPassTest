@@ -12,7 +12,7 @@
 				<h3>{{testData.data.description}}</h3>
 			</div>
 			<div class="form-group startTest">
-				<button class="btn btn-primary btn-lg" @click.prevent="startTest">Start test</button>
+				<button class="btn btn-primary btn-lg" @click.prevent="sendStartTestRequest">Start test</button>
 			</div>
 		</div>
 	</div>
@@ -143,7 +143,9 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
-						<p>Your typed answers are sent to the teacher for review!</p>
+
+						<p>Your text input questions will be graded by the teacher</p>
+
 					</div>
 				</div>
 			</div>
@@ -193,6 +195,9 @@ export default {
 			'changeActiveQuestion',
 			'finishTest',
 			]),
+		sendStartTestRequest(){
+			this.startTest(this.testData.data.id);
+		},
 		getConst(constName) {
 			return types[constName];
 		},
