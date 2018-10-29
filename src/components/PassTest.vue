@@ -174,7 +174,7 @@ export default {
 			]),
 		...mapState({
 			testData: state => state.test,
-			questions: state => state.questions,
+			questions: state => state.questions,	
 			activeQuestion: state => state.activeQuestion,
 			answers: state => state.answers
 		}),
