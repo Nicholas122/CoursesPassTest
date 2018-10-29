@@ -22,7 +22,7 @@
 			<div class="page-header">
 				<div class="row my-header">
 					<h1 class="col-sm-4">{{testData.data.title}}</h1>
-					<div class="col-xs-4 timer">
+					<div class="col-xs-4 timer" v-if="testData.data.timeLimit > 0">
 						<vue-countdown v-on:time-expire="saveTest" :seconds="testData.data.timeLimit*60" :start="true"></vue-countdown>
 					</div>
 				</div>
