@@ -126,15 +126,26 @@
 
 	<div class="container theme-showcase" v-else-if="testData.passed">
 		<div class="starter-template">
-			<div class="page-header">
-				<div class="row my-header">
+
+			<div class="page-header row">
+				<div class="col-lg-10">
+
 					<h1 class="col-sm-4">Results: {{testData.result}}%</h1>
+
+				</div>
+				<div class="col-2">
+
+					<a href="/courses/my" class="btn btn-success h1"> Back to courses</a>
+
 				</div>
 			</div>
+
 			<div class="container">
 				<div class="row">
 					<div class="col-md-6">
+
 						<p>Your text input questions will be graded by the teacher</p>
+
 					</div>
 				</div>
 			</div>
