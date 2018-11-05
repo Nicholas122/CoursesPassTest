@@ -32,7 +32,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div id="calendarPagination" v-for="(question, index) in questions" :key="question.id">
-								<div :class="['pagination', 'btn', 'btn-default', 'currentQuestion', {'active': activeQuestion.id == question.id}]" @click.prevent="changeActiveQuestion(question.id)">
+								<div :class="['pagination', 'btn', 'btn-default', 'currentQuestion', {'active': activeQuestion.id == question.id}]" @click.prevent="changeQuestion(question.id)" :id="'question-pagination-'+question.id">
 									{{index + 1}}
 								</div>
 							</div>
@@ -155,82 +155,91 @@
 </template>
 <script>
 
-import { mapActions, mapState, mapGetters } from 'vuex';
-import * as types from '../store/questionTypes';
-import VueCountdown from '@dmaksimovic/vue-countdown';
+	import { mapActions, mapState, mapGetters } from 'vuex';
+	import * as types from '../store/questionTypes';
+	import VueCountdown from '@dmaksimovic/vue-countdown';
 
-export default {
-	props: ['testId'],
-	components: {
-		'vue-countdown': VueCountdown
-	},
-	created() {
-		this.fetchTest(this.testId);
-		this.fetchQuestion(this.testId);
-	},
-	computed: { 
-		...mapGetters([
-			'getAnswerValue',
-			]),
-		...mapState({
-			testData: state => state.test,
-			questions: state => state.questions,	
-			activeQuestion: state => state.activeQuestion,
-			answers: state => state.answers
-		}),
-		questionAnswer: {
-			get () {
-				return this.getAnswerValue
+	export default {
+		props: ['testId'],
+		components: {
+			'vue-countdown': VueCountdown
+		},
+		created() {
+			this.fetchTest(this.testId);
+			this.fetchQuestion(this.testId);
+		},
+		computed: { 
+			...mapGetters([
+				'getAnswerValue',
+				]),
+			...mapState({
+				testData: state => state.test,
+				questions: state => state.questions,	
+				activeQuestion: state => state.activeQuestion,
+				answers: state => state.answers
+			}),
+			questionAnswer: {
+				get () {
+					return this.getAnswerValue
+				},
+				set (value) {
+					this.$store.commit('UPDATE_QUESTION_ANSWER', value)
+				}
+			}
+		},
+		methods: {
+			...mapActions([
+				'fetchTest',
+				'fetchQuestion',
+				'startTest',
+				'changeActiveQuestion',
+				'finishTest',
+				]),
+			changeQuestion(questionId) {
+				if ((Array.isArray(this.getAnswerValue) && this.getAnswerValue.length > 0) || (Array.isArray(this.getAnswerValue) === false && this.getAnswerValue)) {
+					document.getElementById('question-pagination-'+this.activeQuestion.id).style.cssText = "background-color: #5cb85c;color: #fff;";
+				}else {
+					document.getElementById('question-pagination-'+this.activeQuestion.id).style.cssText = "";
+				}
+
+				this.changeActiveQuestion(questionId);
 			},
-			set (value) {
-				this.$store.commit('UPDATE_QUESTION_ANSWER', value)
+			sendStartTestRequest(){
+				this.startTest(this.testData.data.id);
+			},
+			getConst(constName) {
+				return types[constName];
+			},
+			getCurrentQuestionIndex() {
+				return this.questions.findIndex(item => item.id === this.activeQuestion.id);
+			},
+			getPreviousQuestionId() {
+				var currentIndex =  this.getCurrentQuestionIndex();
+
+				var response = false;
+
+				if (this.questions[currentIndex - 1]) {
+					response = this.questions[currentIndex - 1].id;
+				}
+
+				return response;
+			},
+			getNextQuestionId() {
+				var currentIndex =  this.getCurrentQuestionIndex();
+
+				var response = false;
+
+				if (this.questions[currentIndex + 1]) {
+					response = this.questions[currentIndex + 1].id;
+				}
+
+				return response;
+			},
+			saveTest() {	
+				this.finishTest({'answers': this.answers, 'testId': this.testId});
 			}
 		}
-	},
-	methods: {
-		...mapActions([
-			'fetchTest',
-			'fetchQuestion',
-			'startTest',
-			'changeActiveQuestion',
-			'finishTest',
-			]),
-		sendStartTestRequest(){
-			this.startTest(this.testData.data.id);
-		},
-		getConst(constName) {
-			return types[constName];
-		},
-		getCurrentQuestionIndex() {
-			return this.questions.findIndex(item => item.id === this.activeQuestion.id);
-		},
-		getPreviousQuestionId() {
-			var currentIndex =  this.getCurrentQuestionIndex();
-
-			var response = false;
-
-			if (this.questions[currentIndex - 1]) {
-				response = this.questions[currentIndex - 1].id;
-			}
-
-			return response;
-		},
-		getNextQuestionId() {
-			var currentIndex =  this.getCurrentQuestionIndex();
-
-			var response = false;
-
-			if (this.questions[currentIndex + 1]) {
-				response = this.questions[currentIndex + 1].id;
-			}
-
-			return response;
-		},
-		saveTest() {	
-			this.finishTest({'answers': this.answers, 'testId': this.testId});
-		}
-	}
-};
+	};
 </script>
 
 <style> 
@@ -247,10 +256,10 @@ export default {
 	border: 1px solid rgba(0, 0, 0, 0.125);
 }
 .btn-prev {
-    color: #fff;
-    background-color: #337ab7 !important;
-    border-color: #2e6da4 !important;
-    border-radius: 4px !important;
+	color: #fff;
+	background-color: #337ab7 !important;
+	border-color: #2e6da4 !important;
+	border-radius: 4px !important;
 }
 .btn-prev:hover {
 	color:#fff;
@@ -262,9 +271,9 @@ export default {
 	width:100%;
 }
 .btn-pass {
-    width: 150px;
-    float: right;
-    text-align: center;
+	width: 150px;
+	float: right;
+	text-align: center;
 }
 .pager li > a {
 	cursor: pointer;
