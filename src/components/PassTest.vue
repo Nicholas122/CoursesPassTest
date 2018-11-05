@@ -45,7 +45,7 @@
 					</div>
 					<div id="questionContainer"> 
 						<div class="questions ">
-							<h2 class="qHeader">Question {{getCurrentQuestionIndex() + 1}} outof {{questions.length}} </h2>
+							<h2 class="qHeader">Question {{getCurrentQuestionIndex() + 1}} out of {{questions.length}} </h2>
 							<div class="rtDescription">
 								<h4 class="card-header card-main">
 									<p>{{ activeQuestion.text }}</p>
@@ -98,10 +98,10 @@
 				</div>
 				<ul id="prevNextBtn" class="pager">
 					<li class="previous" v-if="getPreviousQuestionId()">
-						<a type="button" class="btn btn-prev" @click.prevent="changeActiveQuestion(getPreviousQuestionId())">Previous</a>
+						<a type="button" class="btn btn-prev" @click.prevent="changeQuestion(getPreviousQuestionId())">Previous</a>
 					</li>
 					<li class="next" v-if="getNextQuestionId()">
-						<a type="button" class="btn btn-prev" @click.prevent="changeActiveQuestion(getNextQuestionId())">Next</a>
+						<a type="button" class="btn btn-prev" @click.prevent="changeQuestion(getNextQuestionId())">Next</a>
 					</li>
 
 				</ul>
